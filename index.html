@@ -5,13 +5,80 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+
+        <dialog id="authorization-dialog">
+            <form id="authorization-form" method="POST">
+                <div class="form-row">
+                <label for="password">GitHub Token:</label>
+                <input type="password" id="token" name="token" required>
+                </div>
+                <div class="dialog-buttons">
+                    <button type="submit" class="auth-button" id="submitAuthButton">Login</button>
+                    <button type="button" class="auth-button" id="cancelAuthButton">Cancel</button>
+                </div>
+            </form>
+        </dialog>
+
+
+
+        <dialog id="add-node-dialog">
+            <form id="add-node-form" method="POST">
+
+                <div class="form-row">
+                <label for="input-node-title">Node Title:</label>
+                <input type="text" id="input-node-title" name="title" required>
+                </div>
+
+                <div class="form-row">
+                <label for="input-node-id">Node ID:</label>
+                <input type="text" id="input-node-id" name="id" required>
+                </div>
+
+                <div class="form-row">
+                <label for="input-node-parent">Node Parent:</label>
+                <select id="input-node-parent" name="parent">
+                    <option value="">None</option>
+                </select>
+                </div>
+
+                <div class="form-row">
+                <label for="input-node-related">Related Nodes:</label>
+                <select id="input-node-related" name="related" multiple>
+                    <option value="">None</option>
+                </select>
+                </div>
+
+                <div class="form-row">
+                <label for="input-node-description">Node Description:</label>
+                <textarea id="input-node-description" name="description"></textarea>
+                </div>
+
+                <div class="dialog-buttons">
+                    <button type="submit" class="dialog-button" id="submitAddNodeButton">Confirm</button>
+                    <button type="button" class="dialog-button" id="cancelAddNodeButton">Cancel</button>
+                </div>
+                
+            </form>
+        </dialog>
+
+
+
+
+
         <div id="graph"></div>
+        <div id ="toolbar">
+            <button id="settings-button" class="toolbar-button">⚙️</button>
+            <button id="search-button" class="toolbar-button">🔍</button>
+            <button id="authorization-button" class="toolbar-button">🔒</button>
+            <button id="add-node-button" class="toolbar-button hidden"> ➕ </button>
+        </div>
         <div id="info-panel">
             <button id="close-button" onclick="document.getElementById('info-panel').classList.remove('open')">×</button>
             <h1 id="node-title">Node Title</h1>
             <p id="node-description">Node Description</p><br>
             <p id="node-related">Related Nodes</p>
         </div>
+        <script src="github-api.js"></script>
         <script src="main.js"></script>
     </body>
 </html>

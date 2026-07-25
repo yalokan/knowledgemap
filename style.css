@@ -36,3 +36,81 @@ h1{
     color: white;
     cursor: pointer;
 }
+#toolbar{
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+}
+.hidden{
+    display: none !important;
+}
+.toolbar-button{
+    background-color: #333333;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.toolbar-button:hover{
+    background-color: #555555;
+}
+.toolbar-button:active{
+    background-color: #777777;
+}
+dialog{
+    position: fixed;
+    top: 20px;
+    left: 0%;
+    background-color: #333333;
+    border: 1px solid lightgray;
+    padding: 20px;
+    z-index: 200;
+    padding-bottom: 1px;
+}
+label{
+    color: white;
+    width: 100px;
+    padding-right: 8px;
+}
+input{
+    background-color: #444444;
+    color: white;
+    border: 1px solid lightgray;
+    padding: 8px;
+    position: relative;
+}
+textarea{
+    background-color: #444444;
+    color: white;
+    border: 1px solid lightgray;
+    padding: 8px;
+    position: relative;
+}
+.form-row{
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+.dialog-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+.dialog-button{
+    background-color: #0602023d;
+    border-color: white;
+    color: white;
+    padding: 8px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dialog-button:hover{
+    background-color: #555555;
+}

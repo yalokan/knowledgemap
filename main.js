@@ -48,12 +48,15 @@ const options = {
       shape: 'box',
     }
 }
-let nodes, edges, info;
+let nodes, edges, info, token;
+let auth = false
 
   fetch('data.json')
   .then(response => response.json())
   .then(data => processData(data))
   .catch(error => console.error('Failed to load data.json:', error))
+
+  //Отрисовка
 
 function processData(data) {
   nodes = data.map(item => ({ id: item.id, label: item.title }))
@@ -66,20 +69,20 @@ function processData(data) {
   
   const dataset = { nodes, edges }
   const network = new vis.Network(container, dataset, options)
-  
-  network.on("click", function (params) {
+
+//Взаимодействие с юзером
+
+network.on("click", function (params) {
     if (params.nodes.length === 0) return;
     document.getElementById('node-title').textContent = info.find(item => item.id === params.nodes[0]).title
     document.getElementById('node-description').textContent = info.find(item => item.id === params.nodes[0]).description
     
     
-    // Тут я получаю массив Айди связанных узлов
+
     let relatedId = info.find(item => item.id === params.nodes[0]).related
     console.log('Related ID:', relatedId)
-    //Тут я через Айди вытягиваю названия узлов и создаю массив названий связанных узлов
     let relatedTitles = relatedId.map(id => info.find(item => item.id === id)?.title || ' ')
     console.log('Related Titles:', relatedTitles)
-    // Здесь я через map прохожусь по массиву названий и поочередно вставляю в отдельный а тег и присоединяю перенос строки через join
     document.getElementById('node-related').innerHTML = relatedTitles.map(title => `<a href="#" data-id="${info.find(item => item.title === title)?.id || ''}">${title}</a>`).join('<br>')
     
     
@@ -99,6 +102,73 @@ function processData(data) {
 
 }
 
+//Тулбар
 
-// Теперь мне нужно чтобы при нажатии на ссылку срабатывала setSelection и focus из vis.js. Помимо этого срабатывала смена контекста как при клике на узел
-// Для этого я добавляю обработчик события на ссылки, беру их тайтл, снова нахожу айди и передаю в setSelection и focus. После этого вызываю функцию которая обновляет контекст панели информации.
+const authDialog = document.getElementById('authorization-dialog');
+const addNodeDialog = document.getElementById('add-node-dialog');
+document.getElementById('settings-button').addEventListener('click', function() {
+  console.log('Settings button clicked');
+});
+document.getElementById('search-button').addEventListener('click', function() {
+  console.log('Search button clicked');
+});
+
+
+document.getElementById('authorization-button').addEventListener('click', function() {
+  if(auth === false){
+    authDialog.showModal();
+  }
+  else{
+    auth = false
+    document.getElementById('add-node-button').classList.add('disabled');
+    console.log('Unauth function')
+  }
+});
+document.getElementById('cancelAuthButton').addEventListener('click', function() {
+  authDialog.close();
+})
+document.getElementById('authorization-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  let token = document.getElementById('token').value;
+  Authorization(token)
+  .then(() =>{
+    if(auth === true){
+    authDialog.close();
+    document.getElementById('add-node-button').classList.remove('hidden');
+    sessionStorage.setItem('github_token', token)
+}})
+})
+
+document.getElementById('add-node-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const form = document.getElementById('add-node-form');
+  const formData = new FormData(form);
+  const newNode = {
+    id: formData.get('id'),
+    title: formData.get('title'),
+    parent: formData.get('parent'),
+    related: formData.getAll('related'),
+    description: formData.get('description'),
+  };
+  console.log('New node data:', newNode);
+  addNodeDialog.close();   
+  uploadData(newNode)
+  })
+document.getElementById('add-node-button').addEventListener('click', function() {
+  info.forEach(node => {
+  const option = document.createElement('option');
+  option.value = node.id;
+  option.textContent = node.title;
+  document.getElementById('input-node-parent').appendChild(option);
+  document.getElementById('input-node-related').appendChild(option.cloneNode(true));
+})
+  addNodeDialog.showModal();
+});
+document.getElementById('cancelAddNodeButton').addEventListener('click', function() {
+  addNodeDialog.close();
+})
+//JQUERY, REACT
+
+/*const $ = document.getElementById.bind(document);
+$('add-node-form').addEventListener('submit', function(event) {
+*/
