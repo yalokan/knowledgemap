@@ -1,5 +1,5 @@
-const owner = 'Safold'
-const repo = 'KnowledgeMap'
+const owner = 'Yalokan'
+const repo = 'TheoryOfEveryThing'
 
 async function Authorization(token){
     let serverResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/blobs`, { 
