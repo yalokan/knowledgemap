@@ -15,14 +15,13 @@ async function Authorization(token){
             encoding: 'utf-8'
         })
     })
-    if(!serverResponse.ok){
-        console.log(`Something went wrong. Status code: ${serverResponse.status}`)
+    const consloleMessage = 
+        serverResponse.ok
+            ? 'Auth successful!'
+            : `Something went wrong. Status code: ${serverResponse.status}`;
     }
-    else{      
-        console.log('Auth successful')
-        console.log(serverResponse)
-        auth = true
-    }
+        console.log(consloleMessage)
+        auth = true // ???
 
     //TODO : Make animated notification window saying whether auth went successfuly
 }
